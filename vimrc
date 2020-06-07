@@ -74,19 +74,19 @@ let mapleader = "\<space>"
 
 
 " YCM config ycm-core/YouCompleteMe{
-	" Diagnostic display - Eclim
-	let g:EclimFileTypeValidate = 0
+	nnoremap <silent> <leader>go :YcmCompleter GoTo<CR>
+	nnoremap <silent> <leader>fi :YcmCompleter FixIt<CR>
 
+
+	let g:EclimFileTypeValidate = 0						" Diagnostic display - Eclim
 	let g:ycm_server_log_level = 'info'
 	let g:ycm_min_num_identifier_candidate_chars = 2	" 触发字数
 	let g:ycm_collect_identifiers_from_comments_and_strings = 1
 	let g:ycm_complete_in_strings=1
-	let g:ycm_key_invoke_completion = '<c-z>'		" 触发语意补全
-	
-	
-	nnoremap <silent> <leader>gd :YouCompleter GoTO<CR>
-	nnoremap <silent> <leader>gf :YouCompleter FixIt<CR>
-	
+
+
+
+	let g:ycm_key_invoke_completion = '<c-z>'		" 触发语意补全	
 	" 追加补全自动弹出
 	let g:ycm_semantic_triggers =  {
 				\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
@@ -98,8 +98,8 @@ let mapleader = "\<space>"
 	"highlight PMenuSel ctermfg=242 ctermbg=8 guifg=darkgrey guibg=black
 	
 	" 关闭函数原型预览窗口
-	set completeopt=menu,menuone
-	let g:ycm_add_preview_to_completeopt = 0
+	set completeopt=menu,menuone				" ':set completeopt?' 查看当前设置
+	let g:ycm_add_preview_to_completeopt = 0	" Default: '0' 为1时会在completeopt选项后增加preview， 当其本身就有preview属性时，此设置会无效
 	
 	" 关闭YCM自带诊断
 	let g:ycm_show_diagnostics_ui = 0
@@ -200,8 +200,8 @@ let mapleader = "\<space>"
 	let g:ale_lint_on_insert_leave = 1
 	let g:airline#extensions#ale#enabled = 1
 	let g:ale_linters = {
-		"\   'csh': ['shell'],
-		"\   'zsh': ['shell'],
+		\   'csh': ['shell'],
+		\   'zsh': ['shell'],
 		"\   'go': ['gofmt', 'golint'],
 		"\   'python': ['flake8', 'mypy', 'pylint'],
 		\   'c': ['gcc', 'cppcheck'],
@@ -209,21 +209,6 @@ let mapleader = "\<space>"
 		\   'text': [],
 		\}
 	
-	let g:ale_java_javalsp_executable = 'D:\software\vim\java-language-server\dist\windows\bin'	" 此变量必须设置为语言服务器启动器的绝对路径可执行文件
-	let g:ale_java_javalsp_config =
-		\ {
-		\   'java': {
-		\     'externalDependencies': [
-		\       'junit:junit:jar:4.12:test',			" Maven format
-		\       'junit:junit:4.1'						" Gradle format
-		\     ],
-		\     'classPath': [
-		\       'lib/some-dependency.jar',
-		\       '/android-sdk/platforms/android-28.jar'
-		\     ]
-		\   }
-		\ }
-
 	
 	" gcc
 	let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
@@ -242,38 +227,6 @@ let mapleader = "\<space>"
 	hi! SpellRare gui=undercurl guisp=magenta
 "}
 
-" natebosch/vim-lsc {
-	" with java-language-server
-	let g:lsc_server_commands = {'java': '<path-to-java-language-server>/java-language-server/dist/lang_server_{linux|mac|windows}.sh'}
-
-	" Use all the defaults (recommended):
-	let g:lsc_auto_map = v:true
-	
-	" Apply the defaults with a few overrides:
-	let g:lsc_auto_map = {'defaults': v:true, 'FindReferences': '<leader>r'}
-	
-	" Setting a value to a blank string leaves that command unmapped:
-	let g:lsc_auto_map = {'defaults': v:true, 'FindImplementations': ''}
-	
-	" ... or set only the commands you want mapped without defaults.
-	" Complete default mappings are:
-	let g:lsc_auto_map = {
-		\ 'GoToDefinition': '<C-]>',
-		\ 'GoToDefinitionSplit': ['<C-W>]', '<C-W><C-]>'],
-		\ 'FindReferences': 'gr',
-		\ 'NextReference': '<C-n>',
-		\ 'PreviousReference': '<C-p>',
-		\ 'FindImplementations': 'gI',
-		\ 'FindCodeActions': 'ga',
-		\ 'Rename': 'gR',
-		\ 'ShowHover': v:true,
-		\ 'DocumentSymbol': 'go',
-		\ 'WorkspaceSymbol': 'gS',
-		\ 'SignatureHelp': 'gm',
-		\ 'Completion': 'completefunc',
-		\}
-	
-" }
 
 " mhinz/vim-signify {
 	set signcolumn=yes			" signify和ALE相关。侧边栏自动隐藏
@@ -286,12 +239,12 @@ let mapleader = "\<space>"
 	noremap <leader>lp :LeaderfFunction!<cr>	" 函数列表
 	noremap <leader>lb :LeaderfBuffer<cr>		" Buffer检索/列表
 	noremap <leader>lt :LeaderfTag<cr>			" Tag检索
+	let g:Lf_CacheDirectory = expand('~/.cache')
 	
 	let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
 	let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
 	let g:Lf_WorkingDirectoryMode = 'Ac'
 	let g:Lf_WindowHeight = 0.30
-	let g:Lf_CacheDirectory = expand('~/.vim/cache')
 	let g:Lf_ShowRelativePath = 0
 	let g:Lf_HideHelp = 1
 	let g:Lf_StlColorscheme = 'powerline'
@@ -580,9 +533,9 @@ set showcmd                                     " Show partial commands in statu
 " Selected characters/lines in visual mode
 set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
 set virtualedit=onemore                         " used with caution of breaking plugins
-set completeopt=menuone,menu,preview,longest
+"set completeopt=menuone,menu,preview,longest
 set dictionary+=/usr/share/dict/words           " autocompletion with dictionary help
-set dictionary+=~/.vim/dict/
+set dictionary+=$HOME/.vim/dict/
 set statusline+=%*
 set statusline+=%#warningmsg#
 set shortmess+=filmnrxoOtT                      " Abbrev. of messages (avoids 'hit enter')
